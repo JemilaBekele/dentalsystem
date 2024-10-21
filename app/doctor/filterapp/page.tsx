@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Appointments from '@/app/components/doctodayapp/doctoday'
 import {
   Table,
   TableCaption,
@@ -11,7 +12,6 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-
 
 interface Appointment {
   id: string;
@@ -75,7 +75,6 @@ const TodayAppointments: React.FC = () => {
     return `${formattedHour}:${minutes} ${ampm}`;
   };
 
-  
   const getStatusClass = (status: string) => {
     switch (status) {
       case "Scheduled":
@@ -90,18 +89,17 @@ const TodayAppointments: React.FC = () => {
         return "bg-gray-200 text-gray-800"; 
     }
   };
+
   return (
     <div className="mt-24 ml-0 lg:ml-60 w-full max-w-4xl lg:max-w-[calc(100%-15rem)] mx-auto p-5 rounded-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-         Appointments
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">Appointments</h1>
+      <Appointments />
 
-      {/* Form for filtering by date */}
       <form onSubmit={handleSubmit} className="mb-4 text-center">
         <input
           type="date"
           value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)} // Update selected date on input change
+          onChange={(e) => setSelectedDate(e.target.value)} 
           className="px-4 py-2 border rounded"
         />
         <button
@@ -112,12 +110,12 @@ const TodayAppointments: React.FC = () => {
         </button>
       </form>
       <button
-          type="submit"
-          className="ml-4 mb-8 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-          onClick={() => router.push(`/doctor/allappointment`)}
-        >
-          All Appointments
-        </button>
+        type="submit"
+        className="ml-4 mb-8 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+        onClick={() => router.push(`/doctor/allappointment`)}
+      >
+        All Appointments
+      </button>
 
       {loading ? (
         <div>Loading appointments...</div>
@@ -134,13 +132,12 @@ const TodayAppointments: React.FC = () => {
               <TableHead>Card No</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>By</TableHead>
-             
             </TableRow>
           </TableHeader>
           <TableBody>
             {appointments.length > 0 ? (
               appointments.map((appointment) => (
-                <TableRow key={appointment.id} onClick={() => router.push(`/doctor/medicaldata/medicalhistory/all/${appointment.patientId?.id._id}`)}>
+                <TableRow key={appointment.id} onClick={() => router.push(`/reception/appointment/all/${appointment.patientId?.id._id}`)}>
                   <TableCell>
                     {new Date(appointment.appointmentDate).toLocaleDateString(
                       "en-US",
@@ -150,9 +147,12 @@ const TodayAppointments: React.FC = () => {
                   <TableCell>{formatTime(appointment.appointmentTime)}</TableCell>
                   <TableCell>{appointment.patientId.username}</TableCell>
                   <TableCell>{appointment.patientId.cardno}</TableCell>
-                  <TableCell> <p  className={`flex items-center justify-center px-1 py-1 rounded-full ${getStatusClass(appointment.status)}`}>{appointment.status}</p></TableCell>
+                  <TableCell>
+                    <p className={`flex items-center justify-center px-1 py-1 rounded-full ${getStatusClass(appointment.status)}`}>
+                      {appointment.status}
+                    </p>
+                  </TableCell>
                   <TableCell>Dr {appointment.doctorId.username}</TableCell>
-                 
                 </TableRow>
               ))
             ) : (

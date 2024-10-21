@@ -11,7 +11,7 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-import { CodeOutlined } from "@ant-design/icons";
+
 
 interface Appointment {
   id: string;
@@ -133,7 +133,7 @@ const TodayAppointments: React.FC = () => {
           <TableBody>
             {appointments.length > 0 ? (
               appointments.map((appointment) => (
-                <TableRow key={appointment.id}>
+                <TableRow key={appointment.id} onClick={() => router.push(`/doctor/medicaldata/medicalhistory/all/${appointment.patientId?.id._id}`)}>
                   <TableCell>
                     {new Date(appointment.appointmentDate).toLocaleDateString(
                       "en-US",

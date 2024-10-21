@@ -165,7 +165,7 @@ const EditAppointmentModal: React.FC<EditAppointmentModalProps> = ({
               <option value="">Select a doctor</option>
               {doctors.map((doctor) => (
                 <option key={doctor._id} value={doctor._id}>
-                  {doctor.username}
+                 Dr {doctor.username}
                 </option>
               ))}
             </select>
