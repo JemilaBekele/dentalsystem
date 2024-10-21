@@ -86,21 +86,28 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Invoice ID is required" }, { status: 400 });
     }
 
-    // Find and update the invoice by ID
-    const updatedInvoice = await Invoice.findByIdAndUpdate(InvoiceId, data, { new: true }).exec();
-    if (!updatedInvoice) {
+    // Find the invoice by ID
+    const invoice = await Invoice.findById(InvoiceId).exec();
+    if (!invoice) {
       return NextResponse.json({ error: "Invoice not found" }, { status: 404 });
     }
+
+    // Update the invoice with the new data
+    Object.assign(invoice, data);
+
+    
+    invoice.balance = invoice.totalAmount - invoice.totalpaid;
+
+    // Save the updated invoice
+    await invoice.save();
 
     return NextResponse.json({
       message: "Invoice updated successfully",
       success: true,
-      data: updatedInvoice,
+      data: invoice,
     });
   } catch (error) {
     console.error("Error updating invoice:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-  
-

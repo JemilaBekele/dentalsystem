@@ -53,7 +53,7 @@ const Navbar = () => {
           />
         </div>
         <div className="text-indigo-400 text-base font-normal capitalize p-1">
-          {username}
+        {role === 'doctor' && (<p>Dr</p>)}  {username}
         </div>
       </div>
     </div>

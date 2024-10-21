@@ -144,7 +144,7 @@ const FetchInvoices = () => {
       'Invoice ID': invoice.Invoice.id,
       'Patient Name': invoice.Invoice.customerName?.username || 'N/A',
       'Amount': invoice.Invoice.amount.toFixed(2),
-      'Created By': invoice.Invoice.created?.username || 'N/A',
+      'Created By': `Dr ${invoice.Invoice.created?.username} `|| 'N/A',
       'Created At': new Date(invoice.createdAt).toLocaleDateString() || 'N/A',
     }));
   
