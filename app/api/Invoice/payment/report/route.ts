@@ -39,16 +39,22 @@ export async function POST(req: NextRequest) {
     if (startDate && endDate) {
       startDateObj = new Date(startDate);
       endDateObj = new Date(endDate);
-
+    
       if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
         return NextResponse.json({ message: 'Invalid date format.', success: false }, { status: 400 });
       }
-
-      if (endDateObj <= startDateObj) {
+    
+      if (endDateObj < startDateObj) {
         return NextResponse.json({ message: 'End date must be greater than or equal to start date.', success: false }, { status: 400 });
       }
-
-      endDateObj.setHours(23, 59, 59, 999);
+    
+      // If startDate and endDate are the same, set the time to cover the entire day
+      if (startDateObj.getTime() === endDateObj.getTime()) {
+        endDateObj.setHours(23, 59, 59, 999);
+      } else {
+        endDateObj.setHours(23, 59, 59, 999); // Include end of the day for endDate
+      }
+    
       query.createdAt = { $gte: startDateObj, $lte: endDateObj };
     }
 

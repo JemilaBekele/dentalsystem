@@ -38,11 +38,15 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: 'Invalid date format.', success: false }, { status: 400 });
       }
 
-      if (endDateObj <= startDateObj) {
+      if (endDateObj < startDateObj) {
         return NextResponse.json({ message: 'End date must be greater than or equal to start date.', success: false }, { status: 200 });
       }
 
-      endDateObj.setHours(23, 59, 59, 999); // Set end date to the end of the day
+      if (startDateObj.getTime() === endDateObj.getTime()) {
+        endDateObj.setHours(23, 59, 59, 999);
+      } else {
+        endDateObj.setHours(23, 59, 59, 999); // Include end of the day for endDate
+      } // Set end date to the end of the day
 
       // Add date filter to query
       query.createdAt = { $gte: startDateObj, $lte: endDateObj }; // Access createdAt correctly

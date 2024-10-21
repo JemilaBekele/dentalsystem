@@ -12,7 +12,7 @@ interface InvoiceItem {
   service: string;
   quantity: number;
   price: number;
-  description: string;
+  description?:string;
 }
 
 interface Service {
@@ -101,34 +101,35 @@ export default function InvoiceForm({ params }: InvoiceFormProps) {
     e.preventDefault();
     setLoading(true);
     setMessage(null); // Clear previous message before new submission
+  
     if (currentpayment > totalAmount) {
-      alert("Now Paid cannot be greater than Total Amount.");
+      alert("Current Payment cannot be greater than Total Amount.");
       setLoading(false);
       return;
     }
-    const status ="order";
-
+  
     const invoiceData = {
-      items: items.map((item) => ({ ...item, totalPrice: item.quantity * item.price })),
+      items: items.map((item) => ({
+        ...item,
+        totalPrice: item.quantity * item.price,
+        description: item.description || '', // Ensures it's set to an empty string if not provided
+      })),
       customerName,
       currentpayment,
-      status,
-      confirm: false
+      status: "order",
+      confirm: false,
     };
-
+  
     try {
       const response = await fetch(`/api/Invoice/payment/${patientId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(invoiceData),
       });
-
+  
       if (response.ok) {
         setMessage({ text: "Invoice created successfully!", type: "success" });
-        {role === 'admin' && (
-        router.push(`/admin/finace/Invoice/all/${patientId}`))}
-        {role === 'doctor' && (
-          router.push(`/doctor/Invoice/all/${patientId}`))}
+        router.push(role === 'admin' ? `/admin/finace/Invoice/all/${patientId}` : `/doctor/Invoice/all/${patientId}`);
       } else {
         setMessage({ text: "Failed to create the invoice.", type: "error" });
       }
@@ -138,6 +139,7 @@ export default function InvoiceForm({ params }: InvoiceFormProps) {
       setLoading(false);
     }
   };
+  
 
   const columns: Column<InvoiceItem>[] = [
     {

@@ -146,6 +146,12 @@ const PatientComponent: React.FC<PatientDetailsProps> = ({ params }) => {
             >
               <span>Invoice</span>
             </Link>
+            <Link
+              href={`/reception/image/all/${patientId}`}
+              className="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-600 p-4 rounded-lg shadow-md transition"
+            >
+              <span>Images</span>
+            </Link>
           </>
         )}
 

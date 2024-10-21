@@ -3,10 +3,7 @@ import Expense from '@/app/(models)/expense';
 
 import { authorizedMiddleware } from '@/app/helpers/authentication';
 
-interface MedicalFinding {
-  createdAt: string; // or Date, depending on how you store it
-  // Add other fields as needed
-}
+
 
 
   

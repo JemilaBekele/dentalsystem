@@ -50,7 +50,8 @@ const InvoiceItemSchema = new Schema<InvoiceItem>({
   },
   description: {
     type: String,
-    required: true,
+    required: false ,
+    default: '' 
   },
   quantity: {
     type: Number,

@@ -5,7 +5,8 @@ import { ContainerOutlined,  ProjectOutlined, SolutionOutlined } from '@ant-desi
 
 const items= [
   { label: "Dashboard", icon: <ProjectOutlined/>, link: "/doctor" },
-  { label: "Appointment", icon: <SolutionOutlined />, link: "/doctor/allappointment" },
+  { label: "Appointment", icon: <SolutionOutlined />, link: "/doctor/filterapp" },
+  { label: "Recent Patient", icon: <SolutionOutlined />, link: "/doctor/history" },
   { label: "Profile", icon: <ContainerOutlined/>, link: "/doctor/profile" },
   
 ];

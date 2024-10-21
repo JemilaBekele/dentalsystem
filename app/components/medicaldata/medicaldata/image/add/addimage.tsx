@@ -49,7 +49,10 @@ export default function ImageForm({ params }: ImageFormProps) {
         router.push(`/doctor/medicaldata/image/all/${patientId}`))}
         {role === 'admin' && (
           router.push(`/admin/medicaldata/image/all/${patientId}`))}
+        {role === 'reception' && (
+            router.push(`/reception/image/all/${patientId}`))}
       }
+      
     } catch (error) {
       console.error("Error submitting form:", error);
     }

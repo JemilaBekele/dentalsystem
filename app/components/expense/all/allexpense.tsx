@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button"; 
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -20,23 +19,23 @@ const ExpenseReport: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-  const [currentExpense, setCurrentExpense] = useState<Expense | null>(null); // State for the expense to update
+  const [, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentExpense, setCurrentExpense] = useState<Expense | null>(null);
   const [updatedAmount, setUpdatedAmount] = useState<number>(0);
   const [updatedDescription, setUpdatedDescription] = useState<string>("");
 
   // Fetch expenses based on start and end date
-  const fetchExpenses = async () => {
+  const fetchExpenses = useCallback(async () => {
     try {
       const response = await fetch("/api/Expense/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ startDate, endDate }),
       });
-
+  
       if (!response.ok) throw new Error("Failed to fetch expenses");
-
+  
       const data = await response.json();
       if (data.success) {
         setExpenses(data.data.expense || []);
@@ -46,7 +45,12 @@ const ExpenseReport: React.FC = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     }
-  };
+  }, [startDate, endDate]);
+
+  // useEffect to call fetchExpenses whenever startDate or endDate changes
+  useEffect(() => {
+    fetchExpenses();
+  }, [fetchExpenses]);
 
   const handleDeleteExpense = async (expenseId: string) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
@@ -102,11 +106,6 @@ const ExpenseReport: React.FC = () => {
     setIsModalOpen(false);
     setCurrentExpense(null);
   };
-
-  // Fetch data on component mount
-  useEffect(() => {
-    fetchExpenses();
-  }, [startDate, endDate]);
 
   return (
     <div className="mt-24 ml-0 lg:ml-60 w-full max-w-4xl lg:max-w-[calc(100%-15rem)] mx-auto p-5 rounded-lg">
@@ -193,8 +192,7 @@ const ExpenseReport: React.FC = () => {
                 id="updateAmount"
                 className="border rounded-md p-2 w-full"
                 value={updatedAmount}
-                onChange={(e) => setUpdatedAmount(Number(e.target.value))}
-              />
+                onChange={(e) => setUpdatedAmount(Number(e.target.value))} />
             </div>
             <div className="flex justify-end">
               <button

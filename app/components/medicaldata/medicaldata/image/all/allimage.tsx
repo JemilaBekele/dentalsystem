@@ -170,6 +170,36 @@ export default function PatientImages({ params }: PatientImagesProps) {
               </Link>
                 </>
               )}
+              {role === 'doctor' && (
+                <>
+                <Link
+                href={`/doctor/medicaldata/image/add/${patientId}`}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+              >
+                New Image +
+              </Link>
+                </>
+              )}
+              {role === 'doctor' && (
+                <>
+                <Link
+                href={`/doctor/medicaldata/image/add/${patientId}`}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+              >
+                New Image +
+              </Link>
+                </>
+              )}
+              {role === 'reception' && (
+                <>
+                <Link
+                href={`/reception/image/add/${patientId}`}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+              >
+                New Image +
+              </Link>
+                </>
+              )}
               
             </div>
 
