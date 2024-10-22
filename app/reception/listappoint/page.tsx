@@ -22,6 +22,8 @@ interface Appointment {
   patientId: {
     id: {
       _id: string;
+      firstname: string;
+      cardno: string;
     };
     username: string;
     cardno: string;
@@ -141,8 +143,8 @@ const TodayAppointments: React.FC = () => {
                     )}
                   </TableCell>
                   <TableCell>{formatTime(appointment.appointmentTime)}</TableCell>
-                  <TableCell>{appointment.patientId.username}</TableCell>
-                  <TableCell>{appointment.patientId.cardno}</TableCell>
+                  <TableCell>{appointment.patientId.id.firstname}</TableCell>
+                  <TableCell>{appointment.patientId.id.cardno}</TableCell>
                   <TableCell> <p  className={`flex items-center justify-center px-1 py-1 rounded-full ${getStatusClass(appointment.status)}`}>{appointment.status}</p></TableCell>
                   <TableCell>Dr {appointment.doctorId.username}</TableCell>
                  

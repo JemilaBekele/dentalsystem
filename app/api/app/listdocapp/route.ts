@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     const appointments = await Appointment.find({
       ...query, // Spread the existing query for appointmentDate
       status: 'Scheduled',
-      'createdBy.id': createdBy, // Add the status condition
+      'doctorId.id': createdBy, // Add the status condition
     }).populate('patientId.id').exec();
 
     // Return the response with the found appointments

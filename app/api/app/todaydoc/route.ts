@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         $lt: endOfDay,
       },
       status: 'Scheduled', 
-      'createdBy.id': createdBy, // Ensure you're filtering for 'Scheduled' status
+      'doctorId.id': createdBy, // Ensure you're filtering for 'Scheduled' status
     })
     .populate('patientId.id') // Populate nested patient reference
     .exec();

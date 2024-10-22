@@ -22,6 +22,8 @@ interface Appointment {
   patientId: {
     id: {
       _id: string;
+      firstname: string;
+      cardno: string;
     };
     username: string;
     cardno: string;
@@ -48,6 +50,7 @@ const TodayAppointments: React.FC = () => {
         throw new Error("Failed to fetch filtered appointments");
       }
       const data = await response.json();
+      console.log("Response Data:", data);
       if (data.success) {
         setAppointments(data.data);
       } else {
@@ -145,8 +148,8 @@ const TodayAppointments: React.FC = () => {
                     )}
                   </TableCell>
                   <TableCell>{formatTime(appointment.appointmentTime)}</TableCell>
-                  <TableCell>{appointment.patientId.username}</TableCell>
-                  <TableCell>{appointment.patientId.cardno}</TableCell>
+                  <TableCell>{appointment.patientId.id.firstname}</TableCell>
+                  <TableCell>{appointment.patientId.id.cardno}</TableCell>
                   <TableCell>
                     <p className={`flex items-center justify-center px-1 py-1 rounded-full ${getStatusClass(appointment.status)}`}>
                       {appointment.status}

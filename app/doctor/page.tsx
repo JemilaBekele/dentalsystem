@@ -43,7 +43,7 @@ const Home: React.FC = () => {
     // Fetch data initially
     fetchPatients();
 
-    // Set interval for refreshing data every 10 seconds
+    // Set interval for refreshing data every 20 seconds
     const intervalId = setInterval(fetchPatients, 20000);
 
     // Cleanup the interval when the component unmounts
@@ -68,6 +68,7 @@ const Home: React.FC = () => {
         <TableCaption>A list of patients with active orders.</TableCaption>
         <TableHeader>
           <TableRow>
+            <TableHead>No</TableHead> {/* New column for numbering */}
             <TableHead>Name</TableHead>
             <TableHead>Sex</TableHead>
             <TableHead>Actions</TableHead>
@@ -75,8 +76,9 @@ const Home: React.FC = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {patients.map(({ _id, firstname, sex, Order }) => (
+          {patients.map(({ _id, firstname, sex, Order }, index) => (
             <TableRow key={_id}>
+              <TableCell>{index + 1}</TableCell> {/* Display the number */}
               <TableCell>{firstname}</TableCell>
               <TableCell>{sex}</TableCell>
               <TableCell>

@@ -8,6 +8,7 @@ const items = [
   { label: "Register", icon: <FormOutlined />, link: "/reception/client/add" },
   { label: "Active Order", icon: <SolutionOutlined />, link: "/reception/activeorder" },
   { label: "Appointment", icon: <SolutionOutlined />, link: "/reception/listappoint" },
+  { label: "Filter Patient", icon: <SolutionOutlined />, link: "/reception/filterpatient" },
   { label: "Patients", icon: <TeamOutlined />, link: "/reception/client/all" },
   { label: "Order", icon: <BuildOutlined />, link: "/reception/client/order" },
   { label: "Expense", icon: <FundOutlined />, link: "/reception/expense/add" },

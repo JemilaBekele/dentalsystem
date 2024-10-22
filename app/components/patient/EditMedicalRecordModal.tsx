@@ -251,7 +251,7 @@ const EditMedicalRecordModal: React.FC<EditMedicalRecordModalProps> = ({
             </div>
         ))}
         {/* Other treatment input */}
-        <Input
+        <TextArea
             id="treatment-plan-other"
             label="Other Treatment"
             value={localData.TreatmentPlan?.other || ""}
@@ -287,7 +287,7 @@ const EditMedicalRecordModal: React.FC<EditMedicalRecordModalProps> = ({
             </div>
         ))}
         {/* Other treatment input for Treatment Done */}
-        <Input
+        <TextArea
             id="treatment-done-other"
             label="Other Treatment Done"
             value={localData.TreatmentDone?.other || ""}

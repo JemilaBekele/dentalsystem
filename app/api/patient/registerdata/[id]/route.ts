@@ -1,5 +1,12 @@
 import {connect} from "@/app/lib/mongodb";
 import Patient from "@/app/(models)/Patient";
+import Order from "@/app/(models)/Order";
+import MedicalFinding from "@/app/(models)/MedicalFinding";
+import Healthinfo from "@/app/(models)/healthinfo";
+import Appointment from "@/app/(models)/appointment";
+import Image from "@/app/(models)/image";
+import Invoice from "@/app/(models)/Invoice";
+import Card from "@/app/(models)/card";
 import { NextRequest, NextResponse } from "next/server";
 import {authorizedMiddleware} from "@/app/helpers/authentication"
 connect();
@@ -29,22 +36,47 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  authorizedMiddleware(request);
+    authorizedMiddleware(request);
     try {
-      
       const { id } = params;
       
       if (!id) {
-        return NextResponse.json({ error: "patient ID is required" }, { status: 400 });
+        return NextResponse.json({ error: "Patient ID is required" }, { status: 400 });
       }
   
-      const patient = await Patient.findByIdAndDelete(id);
+      const patient = await Patient.findById(id);
   
       if (!patient) {
-        return NextResponse.json({ error: "patient not found" }, { status: 404 });
+        return NextResponse.json({ error: "Patient not found" }, { status: 404 });
       }
   
-      return NextResponse.json({ message: "patient deleted successfully" });
+      // Deleting related documents
+      if (patient.Order && patient.Order.length > 0) {
+        await Order.deleteMany({ _id: { $in: patient.Order } });
+      }
+      if (patient.MedicalFinding && patient.MedicalFinding.length > 0) {
+        await MedicalFinding.deleteMany({ _id: { $in: patient.MedicalFinding } });
+      }
+      if (patient.Healthinfo && patient.Healthinfo.length > 0) {
+        await Healthinfo.deleteMany({ _id: { $in: patient.Healthinfo } });
+      }
+      if (patient.Appointment && patient.Appointment.length > 0) {
+        await Appointment.deleteMany({ _id: { $in: patient.Appointment } });
+      }
+      if (patient.Image && patient.Image.length > 0) {
+        await Image.deleteMany({ _id: { $in: patient.Image } });
+      }
+      if (patient.Invoice && patient.Invoice.length > 0) {
+        await Invoice.deleteMany({ _id: { $in: patient.Invoice } });
+      }
+      if (patient.Card && patient.Card.length > 0) {
+        await Card.deleteMany({ _id: { $in: patient.Card } });
+      }
+  
+      // Finally, delete the patient document
+      await Patient.findByIdAndDelete(id);
+  
+      return NextResponse.json({ message: "Patient and related data deleted successfully" });
     } catch (error: unknown) {
       console.error("Error in DELETE /api/patient/registerdata:", error);
       return NextResponse.json({ error: "Internal server error" }, { status: 500 });

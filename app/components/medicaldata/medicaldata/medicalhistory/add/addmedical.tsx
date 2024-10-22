@@ -424,6 +424,8 @@ export default function MedicalFindingForm({ params }: MedicalFindingFormProps) 
                   name="TreatmentPlan.other"
                   value={formData.TreatmentPlan.other}
                   onChange={handleInputChange}
+                  isTextArea
+                rows={3}
                 />
               </div>
 
@@ -496,6 +498,8 @@ export default function MedicalFindingForm({ params }: MedicalFindingFormProps) 
                   name="TreatmentDone.other"
                   value={formData.TreatmentDone.other}
                   onChange={handleInputChange}
+                  isTextArea
+                rows={3}
                 />
               </div>
 
