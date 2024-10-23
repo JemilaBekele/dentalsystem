@@ -2,7 +2,8 @@ import { connect } from "@/app/lib/mongodb";
 import { NextRequest, NextResponse } from 'next/server';
 import Patient from "@/app/(models)/Patient";
 import Order from "@/app/(models)/Order";
-import {authorizedMiddleware} from "@/app/helpers/authentication"
+import { authorizedMiddleware } from "@/app/helpers/authentication";
+
 connect();
 
 export async function GET(request: NextRequest) {
@@ -16,11 +17,13 @@ export async function GET(request: NextRequest) {
 
     const doctorId = user.id;
 
-    // Fetch active orders for the doctor
+    // Fetch active orders for the doctor, sorted by updatedAt in descending order
     const activeOrders = await Order.find({
       'assignedDoctorTo.id': doctorId, // Adjust field as needed
       status: 'Active',
-    }).exec();
+    })
+      .sort({ updatedAt: -1 }) // Sort by updatedAt in descending order
+      .exec();
 
     if (!activeOrders || activeOrders.length === 0) {
       return NextResponse.json({ message: "No active orders found" });
@@ -35,8 +38,6 @@ export async function GET(request: NextRequest) {
     if (!patients || patients.length === 0) {
       return NextResponse.json({ message: "Patients not found" });
     }
-
-   
 
     return NextResponse.json({
       message: "Patient profiles retrieved successfully",
