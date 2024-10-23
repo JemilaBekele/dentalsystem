@@ -35,14 +35,7 @@ const AppointmentSchema = new mongoose.Schema({
       ref: 'Patient',
       required: [true, 'Please provide Patient ID'],
     },
-    username: {
-      type: String,
-      required: [true, 'Please provide Patient name'],
-    },
-    cardno: {
-      type: String,
-      required: [true, 'Please provide Patient name'],
-    },
+   
   },
   createdBy: userReferenceSchema,
 }, { timestamps: true });

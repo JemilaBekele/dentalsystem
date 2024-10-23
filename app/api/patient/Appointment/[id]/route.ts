@@ -57,9 +57,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
           id: doctor._id,
           username: doctor.username,
         },
-        patientId: { id: patient._id, // Patient ObjectId
-          username: patient.firstname,
-          cardno: patient.cardno  },
+        patientId: { id: patient._id  },
         createdBy: {
           id: user.id,
           username: user.username,

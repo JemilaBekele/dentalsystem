@@ -8,8 +8,11 @@ interface Appointment {
   doctorId: {username:string};
   status: string;
   patientId: {
-    username: string;
-    cardno: string;
+    id: {
+      _id: string;
+      firstname: string;
+      cardno: string;
+    };
   };
 }
 
@@ -81,8 +84,8 @@ const TodayAppointments: React.FC = () => {
                       { year: "numeric", month: "long", day: "numeric" }
                     )}</TableCell>
                 <TableCell>{formatTime(appointment.appointmentTime)} </TableCell>
-                <TableCell>{appointment.patientId.username}</TableCell>
-                <TableCell>{appointment.patientId.cardno}</TableCell>
+                <TableCell>{appointment.patientId.id.firstname}</TableCell>
+                  <TableCell>{appointment.patientId.id.cardno}</TableCell>
                 <TableCell>Dr {appointment.doctorId.username}</TableCell>
               </TableRow>
             ))
