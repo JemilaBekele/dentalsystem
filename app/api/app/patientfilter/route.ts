@@ -1,14 +1,19 @@
-// pages/api/app/patientfilter.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import Patient from "@/app/(models)/Patient"; // Adjust the import according to your file structure
+
+// Define a type for the query object
+type Query = {
+  firstname?: { $regex: RegExp };
+  createdAt?: { $gte: Date; $lte: Date };
+};
 
 export async function POST(req: NextRequest) {
   // Parse the request body
   const { firstName, date } = await req.json();
 
   try {
-    const query: any = {};
+    // Define query object with more specific typing
+    const query: Query = {};
 
     if (firstName) {
       query.firstname = { $regex: new RegExp(firstName, 'i') }; // Case-insensitive search
